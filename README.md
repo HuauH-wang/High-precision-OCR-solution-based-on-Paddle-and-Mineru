@@ -1,4 +1,4 @@
-# OCR MD
+# 基于paddle与mineru的高精度ocr方案
 
 面向复杂版面的高精度文档解析配套工程：**轻量产线**通过云端 API（Paddle AI Studio + MinerU）完成多轮 OCR，将 PDF / 图片统一输出为 Markdown。
 

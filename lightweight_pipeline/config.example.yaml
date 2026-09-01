@@ -1,0 +1,165 @@
+# 复制为本目录下的 config.yaml 后填写 Token：
+#   cp config.example.yaml config.yaml
+#
+# 也可通过环境变量注入（优先于本文件）：
+#   MINERU_TOKEN / AISTUDIO_TOKEN
+#   （可选分别覆盖）AISTUDIO_LAYOUT_TOKEN / AISTUDIO_SPOTTING_TOKEN
+
+pipeline:
+  mode: lightweight
+  parse_path: P1                       # P0 | P1 | P2-M1 | P2-M2
+  blur_sensitive: false
+  output_dir: ./output
+  work_dir: ./work
+  keep_intermediates: true
+
+output:
+  format: markdown
+  unified_markdown: true
+  include_frontmatter: true
+  write_document_md: true
+  keep_json_intermediate: false
+
+batch:
+  max_parallel_docs: 4
+  max_parallel_pages: 8
+  mineru_batch_size: 50
+  mineru_poll_interval_sec: 3.0
+  mineru_poll_timeout_sec: 600.0
+  retry_attempts: 3
+  retry_delay_sec: 2.0
+  paddle_layout_qps: 10
+  paddle_spotting_qps: 10
+  paddle_det_qps: 20
+  paddle_rec_qps: 20
+
+entry:
+  supported_extensions: [pdf, png, jpg, jpeg, heif, heic]
+  heif_converter_bin: heif-converter
+  pdf_probe_pages: 3
+  pdf_text_threshold: 50
+  pymupdf_zoom: 2.0
+
+pdfplumber:
+  table_settings: {}
+
+ocr:
+  table_label: table
+  text_labels: [text, title, paragraph, image, figure]
+  round2_padding_ratio: 0.05
+  layout_confidence_min: 0.2
+  layout_confidence_min_blur: 0.1
+
+detection:
+  normal_threshold: 0.5
+  blur_threshold: 0.25
+
+apis:
+  mineru:
+    enabled: true
+    token: ""                          # 或环境变量 MINERU_TOKEN；申请：https://mineru.net
+    base_url: https://mineru.net
+    model_version: vlm
+    is_ocr: true
+    enable_formula: true
+    enable_table: true
+    language: ch
+    request_timeout_sec: 60.0
+
+  paddle_layout:
+    enabled: true
+    provider: aistudio
+    base_url: https://paddleocr.aistudio-app.com/api/v2/ocr/jobs
+    token: ""                          # 或 AISTUDIO_TOKEN / AISTUDIO_LAYOUT_TOKEN
+    model: PaddleOCR-VL-1.5
+    poll_interval_sec: 5.0
+    poll_timeout_sec: 600.0
+    timeout_sec: 120.0
+    optional_payload:
+      markdownIgnoreLabels:
+        - header
+        - header_image
+        - footer
+        - footer_image
+        - number
+        - footnote
+        - aside_text
+      useDocOrientationClassify: false
+      useDocUnwarping: false
+      useLayoutDetection: true
+      useChartRecognition: false
+      useSealRecognition: true
+      useOcrForImageBlock: false
+      mergeTables: true
+      relevelTitles: true
+      layoutShapeMode: auto
+      promptLabel: ocr
+      repetitionPenalty: 1
+      temperature: 0
+      topP: 1
+      minPixels: 147384
+      maxPixels: 3211264
+      layoutNms: true
+      restructurePages: true
+    blur_optional_payload:
+      layoutNms: false
+
+  paddle_spotting:
+    enabled: true
+    provider: aistudio
+    base_url: https://paddleocr.aistudio-app.com/api/v2/ocr/jobs
+    token: ""                          # 或 AISTUDIO_TOKEN / AISTUDIO_SPOTTING_TOKEN
+    model: PaddleOCR-VL-1.5
+    poll_interval_sec: 5.0
+    poll_timeout_sec: 600.0
+    timeout_sec: 120.0
+    optional_payload:
+      markdownIgnoreLabels:
+        - header
+        - header_image
+        - footer
+        - footer_image
+        - number
+        - footnote
+        - aside_text
+      useDocOrientationClassify: false
+      useDocUnwarping: false
+      useLayoutDetection: false
+      useChartRecognition: false
+      useSealRecognition: true
+      useOcrForImageBlock: false
+      mergeTables: true
+      relevelTitles: true
+      layoutShapeMode: auto
+      promptLabel: spotting
+      repetitionPenalty: 1
+      temperature: 0
+      topP: 1
+      minPixels: 147384
+      maxPixels: 3211264
+      layoutNms: true
+      restructurePages: true
+    blur_optional_payload:
+      layoutNms: false
+
+  paddle_detection:
+    enabled: false
+    # 已由 paddle_spotting（AI Studio spotting 模式）替代
+    base_url: ""
+    token: ""
+    api_key: ""
+    secret_key: ""
+    timeout_sec: 60.0
+    extra_headers: {}
+    extra_params: {}
+
+  paddle_recognition:
+    enabled: false
+    # 已由 paddle_spotting（AI Studio spotting 模式）替代
+    base_url: ""
+    token: ""
+    api_key: ""
+    secret_key: ""
+    timeout_sec: 60.0
+    extra_headers: {}
+    extra_params: {}

@@ -1,0 +1,7 @@
+# Nested ignore (runtime + secrets). Root .gitignore also covers these.
+config.yaml
+work/
+output/
+__pycache__/
+*.pyc
+.pytest_cache/

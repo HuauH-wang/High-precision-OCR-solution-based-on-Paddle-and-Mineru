@@ -1,0 +1,50 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Secrets & local config — NEVER commit
+.env
+.env.*
+!.env.example
+lightweight_pipeline/config.yaml
+**/secrets.yaml
+**/credentials.json
+
+# Pipeline runtime artifacts (may contain private documents)
+lightweight_pipeline/work/
+lightweight_pipeline/output/
+work/
+output/
+
+# IDE / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Local scratch
+*.log
+tmp/
+temp/

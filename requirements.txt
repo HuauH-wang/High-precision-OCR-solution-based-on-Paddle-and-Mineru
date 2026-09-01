@@ -1,0 +1,2 @@
+# Root convenience — installs the lightweight pipeline dependencies.
+-r lightweight_pipeline/requirements.txt

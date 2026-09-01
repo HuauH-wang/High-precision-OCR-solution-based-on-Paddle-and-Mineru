@@ -7,4 +7,4 @@
 | [paddleocr-modules.md](paddleocr-modules.md) | PaddleOCR 模块与本地部署汇总 |
 | [paddleocr-vl-docker.md](paddleocr-vl-docker.md) | PaddleOCR-VL 本地 Docker 参考 |
 
-文档中的本机路径均已替换为占位符 `<YOUR_USER>`；请按实际环境修改。
+
